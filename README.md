@@ -31,7 +31,7 @@ $ catkin_init_workspace  # initialize your catkin workspace
 $ cd ~/catkin_ws/
 $ catkin init
 $ cd ~/catkin_ws/src
-$ git clone my repo													
+$ git clone git@github.com:samarth-kalluraya/TL_RRT_star_simulation-.git													
 $ cd ~/catkin_ws
 ```
 
