@@ -1,0 +1,305 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so"/>
+    <physics type='ode'>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>1000</iters>
+          <sor>1.3</sor>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>100</contact_max_correcting_vel>
+          <contact_surface_layer>0.001</contact_surface_layer>
+        </constraints>
+      </ode>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+    </physics>
+    <include>
+      <uri>model://grass_plane_samarth</uri>
+    </include>
+    <!-- Light Source -->
+    <light type="directional" name="sun">
+      <cast_shadows>false</cast_shadows>
+      <pose>25 0 50 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>0.2 0.2 -0.9</direction>
+    </light>
+    <light type="point" name="light_bulb1">
+      <cast_shadows>false</cast_shadows>
+      <pose>12.5 12.5 20 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>100</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+
+    <light type="point" name="light_bulb2">
+      <cast_shadows>false</cast_shadows>
+      <pose>37.5 12.5 20 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>100</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+    
+    <light type="point" name="light_bulb3">
+      <cast_shadows>false</cast_shadows>
+      <pose>37.5 37.5 20 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>100</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+    
+    <light type="point" name="light_bulb4">
+      <cast_shadows>false</cast_shadows>
+      <pose>12.5 37.5 20 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>100</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+    
+
+    <include>
+      <uri>model://osrf_first_office</uri>
+      <name>osrf_first_office</name>
+      <static>true</static>
+      <pose>25 36 0 0 0 1.5707</pose>
+    </include>
+    
+    <include>
+      <uri>model://water_tower</uri>
+      <name>water_tower</name>
+      <static>true</static>
+      <pose>6 40 0 0 0 1.5707</pose>
+    </include>
+    
+    <include>
+      <uri>model://suv_0</uri>
+      <name>suv_0</name>
+      <static>true</static>
+      <pose>19 44 0 0 0 1.5707</pose>
+    </include>
+    
+    <include>
+      <uri>model://hatchback_blue</uri>
+      <name>hatchback_blue</name>
+      <static>true</static>
+      <pose>40 37 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://hatchback_red</uri>
+      <name>hatchback_red</name>
+      <static>true</static>
+      <pose>40 31 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://fountain</uri>
+      <name>fountain</name>
+      <static>true</static>
+      <pose>25 17 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://dumpster</uri>
+      <name>dumpster</name>
+      <static>true</static>
+      <pose> 39 47 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://pine_tree</uri>
+      <name>pine_tree</name>
+      <static>true</static>
+      <pose>36 48 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://playground</uri>
+      <name>playground</name>
+      <static>true</static>
+      <pose>8 25 0 0 0 1.5707</pose>
+    </include>
+    
+    <include>
+      <uri>model://pine_tree_0</uri>
+      <name>pine_tree_0</name>
+      <static>true</static>
+      <pose>3.6 31 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://pine_tree_1</uri>
+      <name>pine_tree_1</name>
+      <static>true</static>
+      <pose>47 40 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://pine_tree_2</uri>
+      <name>pine_tree_2</name>
+      <static>true</static>
+      <pose>12 42 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://pine_tree_3</uri>
+      <name>pine_tree_3</name>
+      <static>true</static>
+      <pose>44 24 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://hatchback</uri>
+      <name>hatchback</name>
+      <static>true</static>
+      <pose>4 16 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://hatchback_red_0</uri>
+      <name>hatchback_red_0</name>
+      <static>true</static>
+      <pose>4 12 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://suv</uri>
+      <name>suv</name>
+      <static>true</static>
+      <pose>43 6 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://hatchback_blue_0</uri>
+      <name>hatchback_blue_0</name>
+      <static>true</static>
+      <pose>28 17 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://telephone_pole</uri>
+      <name>telephone_pole</name>
+      <static>true</static>
+      <pose>12 9 0 0 0 1.5707</pose>
+    </include>
+    
+    <include>
+      <uri>model://telephone_pole_0</uri>
+      <name>telephone_pole_0</name>
+      <static>true</static>
+      <pose>37 9 0 0 0 1.5707</pose>
+    </include>
+    <!-- ******************************************************************************* -->
+    <!-- ******************************************************************************* -->
+    <!-- ******************************************************************************* -->
+   
+
+<!-- jbjbjbjbjjbjbjbjbjbjbjbjjbjbjbjbjbjbjjbjbjbjbjbjbjbjjbjb -->
+
+
+    <include>
+      <uri>model://jersey_barrier</uri>
+      <name>jersey_barrier</name>
+      <static>true</static>
+      <pose>2 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_1</uri>
+      <name>jersey_barrier_1</name>
+      <static>true</static>
+      <pose>6 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_2</uri>
+      <name>jersey_barrier_2</name>
+      <static>true</static>
+      <pose>10 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_3</uri>
+      <name>jersey_barrier_3</name>
+      <static>true</static>
+      <pose>14 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_4</uri>
+      <name>jersey_barrier_4</name>
+      <static>true</static>
+      <pose>18 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_5</uri>
+      <name>jersey_barrier_5</name>
+      <static>true</static>
+      <pose>32 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_6</uri>
+      <name>jersey_barrier_6</name>
+      <static>true</static>
+      <pose>36 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_7</uri>
+      <name>jersey_barrier_7</name>
+      <static>true</static>
+      <pose>40 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_8</uri>
+      <name>jersey_barrier_9</name>
+      <static>true</static>
+      <pose>44 10 0 0 0 0</pose>
+    </include>
+    
+    <include>
+      <uri>model://jersey_barrier_9</uri>
+      <name>jersey_barrier_9</name>
+      <static>true</static>
+      <pose>48 10 0 0 0 0</pose>
+    </include>
+    
+  </world>
+</sdf>
