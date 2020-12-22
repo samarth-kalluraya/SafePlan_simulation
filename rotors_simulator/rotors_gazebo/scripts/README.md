@@ -1,13 +1,8 @@
-# TL-RRT*
-Tasks specified by Linear Temporal Logic can capture more complex missions compared to traditional point-to-point navigation.
-The majority of existing Linear Temporal Logic (LTL) planning methods rely on the construction of a discrete product 
-automaton, that combines a discrete abstraction of robot mobility and a Büchi automaton that captures the LTL specification
-We propose a new sampling-based LTL planning algorithm that does not require any discrete abstraction of robot mobility.
-Instead, it builds incrementally trees that explore the product state-space, until a maximum number of iterations is
-reached or a feasible plan is found. The use of trees makes data storing and manipulation tractable, which significantly
-increases the scalability of our algorithm. To accelerate the construction of feasible plans, we introduce bias in the
-sampling process which is guided by transitions in the Büchi automaton that belong to the shortest path to the accepting
-states.
+# SafePlan
+SafePlan is an implementation of optimal temporal logic planning for multi-robot systems in uncertain semantic maps [1].
+The goal of this planner is to complete collaborative high-level tasks captured by global temporal logic specifications in the presence of uncertainty in the workspace. The workspace is modeled as a semantic map determined by Gaussian distributions over landmark positions and arbitrary  discrete distributions over landmark classes. We extend Linear Temporal Logic by including information-based predicates allowing us to incorporate uncertainty and probabilistic satisfaction requirements directly into the task specification. We propose a new highly scalable sampling-based approach that simultaneously searches the semantic map along with an automaton corresponding to the task and synthesizes paths that satisfy the assigned task specification.
+
+[1] Y. Kantaros and G. J. Pappas, "Optimal Temporal Logic Planning for Multi-Robot Systems in Uncertain Semantic Maps," 2019 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Macau, China, 2019, pp. 4127-4132, doi: 10.1109/IROS40897.2019.8968547.
 
 # Requirements
 * [Python >=3.6](https://www.python.org/downloads/)
@@ -48,7 +43,7 @@ states.
 ## Workspace
 The workspace of size `150 x 150` is shown below, with `l_1`-`l_13` being regions and `o_1`-`o_3` being obstacles
 <p align="center">
-<img src="img/workspace.png"  width="750" height="500">
+<img src="img/workspace.png"  width="600" height="600">
 </p>
 
 ## Test Cases
@@ -87,7 +82,7 @@ self.subformula = {2: ['(l11_1)',0,0.8,1.5, 0],
                     3: ['(l9_1)',0,0.8,1.5, 0], 
                     1: ['(l13_1)',0,0.8,3, 0], 
                     4: ['(l11_1)',0,0.8,5, 0]
-                    }
+                   }
 robot_initial_pos = ((25,80),)  # in the form of ((x,y), (x,y), ...)    
 ```
 The output results during execution are
@@ -95,16 +90,19 @@ The output results during execution are
 Time for the prefix path: 0.0066 min
 Cost of path: 228.00000000000003
 ```
+<p align="center">
+<img src="img/Case1_Output1.png"  width="250" height="250" title="Robot 1 path">
+</p>
+
 
 ### Case 2
 The task involving two robots is specified by 
 ```python
-self.formula = '<> e1  && <> e2 && <> e3 && !e2 U e1' 
-self.subformula = {1: ['(l1_1)',0,0.8,1.5, 0],
-                    2: ['(l6_2)',0,0.8,1.5, 0], 
-                    3: ['(l2_1 && l10_2)',0,0.8,3, 0], 
-                    4: ['(l11_1)',0,0.8,5, 0]
-                    }
+self.formula = '<> e1  && <> e2 && <> e3 && !e3 U e1' 
+self.subformula = {1: ['(l9_1)',0,0.8,1.5, 0],
+                    2: ['(l12_2)',0,0.8,1.5, 0], 
+                    3: ['(l2_1 && l10_2)',0,0.8,3, 0]
+                  }
 robot_initial_pos = ((25,80),(10,8)  # in the form of ((x,y), (x,y), ...)    
 ```
 The output results during execution are
@@ -112,6 +110,11 @@ The output results during execution are
 Time for the prefix path: 0.0995 min
 Cost of path: 229.45128947213922
 ```
+<p align="center">
+<img src="img/Case2_Output1.png"  width="250" height="250" title="Robot 1 path">
+<img src="img/Case2_Output2.png"  width="250" height="250" title="Robot 2 path">
+</p>
+
 
 ### Case 3
 The task involving five robots is specified by 
@@ -119,9 +122,9 @@ The task involving five robots is specified by
 self.formula = '<>e1 && <> ( e2 && <> e3) && []!e4'
 self.subformula = {1: ['(l1_1 && l3_2 && l7_4 && l10_5)',0,    0.7,    1.5, 0],
                     2: ['(l9_1 && l11_2 && l8_3)',  0,    0.7,    1.5,  0],
-                    3: ['(l8_1 && l7_2 && l2_3 && l5_4 && l12_5)', 0,    0.7,   1.5,  0],
+                    3: ['(l8_1 && l7_2 && l2_3 && l6_4 && l12_5)', 0,    0.7,   1.5,  0],
                     4: ['(l13_1 || l13_2 || l13_3 || l13_4 || l13_5)', 0,    0.7,    5,  0]
-                    }
+                   }
 robot_initial_pos = ((25,80),(10,8),(15,8),(20,8),(25,8))
 ```
 The output results during execution are
@@ -129,3 +132,13 @@ The output results during execution are
 Time for the prefix path: 0.2149 min
 Cost of path: 535.7794199619735
 ```
+<p align="center">
+<img src="img/Case5_Output1.png"  width="250" height="250" title="Robot 1 path">
+<img src="img/Case5_Output2.png"  width="250" height="250" title="Robot 2 path">
+<img src="img/Case5_Output3.png"  width="250" height="250" title="Robot 3 path">
+</p>
+<p align="center">
+<img src="img/Case5_Output4.png"  width="250" height="250" title="Robot 4 path">
+<img src="img/Case5_Output5.png"  width="250" height="250" title="Robot 5 path">
+</p>
+
