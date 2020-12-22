@@ -9,6 +9,68 @@ uses the RotorS ROS package [RotorS](https://github.com/ethz-asl/rotors_simulato
 [1] Y. Kantaros and G. J. Pappas, "Optimal Temporal Logic Planning for Multi-Robot Systems in Uncertain Semantic Maps," 2019 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Macau, China, 2019, pp. 4127-4132, doi: 10.1109/IROS40897.2019.8968547.
 
 
+# Requirements for SafePlan
+* [Python >=3.6](https://www.python.org/downloads/)
+* [sympy](https://www.sympy.org/en/index.html)
+* [re]()
+* [Pyvisgraph](https://github.com/TaipanRex/pyvisgraph)
+* [NetworkX](https://networkx.github.io)
+* [Shapely](https://github.com/Toblerity/Shapely)
+* [scipy](https://www.scipy.org)
+* [matplotlib](https://matplotlib.org)
+* [termcolor](https://pypi.org/project/termcolor/)
+* [visilibity](https://github.com/tsaoyu/PyVisiLibity)
+
+## Additional requirements for simulation
+* [gazebo2rviz](https://github.com/andreasBihlmaier/gazebo2rviz)
+* [pysdf](https://github.com/andreasBihlmaier/pysdf.git)
+
+# Usage
+## Structures
+* Class [Task](rotors_simulator/rotors_gazebo/scripts/task.py) defines the task specified in LTL
+* Class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py) define the workspace where robots reside
+* Class [Landmark](rotors_simulator/rotors_gazebo/scripts/workspace.py) define the landmarks in the workspace
+* Class [Buchi](rotors_simulator/rotors_gazebo/scripts/buchi_parse.py) constructs the graph of NBA from LTL formula
+* Class [Geodesic](rotors_simulator/rotors_gazebo/scripts/geodesic_path.py) constructs geodesic path for given environment
+* Class [BiasedTree](rotors_simulator/rotors_gazebo/scripts/biased_tree.py) involves the initialization of the tree and relevant operations
+* Function [construction_biased_tree](rotors_simulator/rotors_gazebo/scripts/construct_biased_tree.py) incrementally grow the tree
+* Script [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py) contains the main function
+* Functions [path_plot](rotors_simulator/rotors_gazebo/scripts/draw_picture.py) and [path_print](draw_picture.py) draw and print the paths, respectively
+* Functions [export_disc_to_txt](rotors_simulator/rotors_gazebo/scripts/export_disc_to_text.py) and [export_cov_to_txt](rotors_simulator/rotors_gazebo/scripts/export_cov_to_text.py) export discretized waypoints and covariance at waypoints, respectively
+* Functions [kf_update](rotors_simulator/rotors_gazebo/scripts/kf.py) and [ekf_update](rotors_simulator/rotors_gazebo/scripts/ekf.py) update position and cavariance using kalman filter and extended kalman filter respectively
+
+## Basic procedure
+* First, in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py) specify the size of the workspace, the layout of landmarks and obstacles, and the covariance associated with each landmark. Also specify the number of classes and the class distribution.
+* Then, specify the LTL task in the class [Task](rotors_simulator/rotors_gazebo/scripts/task.py), which mainly involves the assigned task, the number of robots, the initial locations of robots and the minimum distance between any pair of robots, and workspace in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py) that contains the information about the size of the workspace, the layout of regions and obstacles. If manual initiation is set to False, then the robots will be initated at random locations. 
+* Select the desired dynamics in the [sample_control_to_target]() funtion in the class [BiasedTree](rotors_simulator/rotors_gazebo/scripts/biased_tree.py).
+* Set the parameters used in the TL-RRT* in the script [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py), such as the maximum number of iterations, the step size, sensor range, sensor noise. 
+* Specify location of folder where the waypoints should be saved (resources folder in the rotors_gazebo package).
+
+
+Basic Usage of simulation
+---------------------------------------------------------
+
+Running the simulation is quite simple, so as customizing it: it is enough to run in a terminal the command
+
+```console
+$ roslaunch rotors_gazebo ltl_sim.launch 
+```
+> **Note** For the first run you will need to update the starting positions of the robots in the launch file. This position should be the same starting positions as mentioned in the LTL task in the class [Task](rotors_simulator/rotors_gazebo/scripts/task.py). Alternatively if you run the program [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py) from the terminal before launching the simulation, the launch file will be automatically updated.
+
+The ltl_sim.launch file  launches a gazebo environment and an RViz environment. Once the Gazebo environment is unpaused, run the following line in the terminal.
+```console
+$ rosrun rotors_gazebo online_planner.py 
+```
+The [online_planner.py](rotors_simulator/rotors_gazebo/scripts/online_planner.py) file is used to calculate the path of the robots. It uses the feedback of the cameras mounted on each of the drones to update the estimates of the landmarks. It then determines if replanning is necessary to satisfy the LTL condition.
+You can also visualize the simulation in RViz. Markers display the estimated positions of the landmark, the current position of each robot and the path traced by each robot. Add visualization_marker to display the Gazebo world in RViz. 
+
+### User-defined
+* User can replace the [generate_nn_output](rotors_simulator/rotors_gazebo/scripts/neural_net.py) function with their neural network. The output of this network is used to update the landmark estimates and class distributions. User can also change the [update_landmark_estimates](rotors_simulator/rotors_gazebo/scripts/online_planner.py) and the [update_class_distribution](rotors_simulator/rotors_gazebo/scripts/online_planner.py) functions as per requirement. The current fucntions use a kalman filter and a bayes filter respectively to update the probability distributions. 
+* User can use any Gazebo world as per requirement. If a new world is used update the landmark estimates and class distributions in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py)
+
+
+
+
 Installation Instructions - Ubuntu 18.04 with ROS Melodic and Gazebo 9
 ---------------------------------------------------------
 To use the code developed and stored in this repository some preliminary actions are needed. They are listed below.
@@ -74,52 +136,6 @@ $ sudo apt-get update
 $ sudo apt-get install gazebo9 gazebo9-* ros-melodic-gazebo-*
 $ sudo apt upgrade
 ```
-
-## Additional requirements
-* [gazebo2rviz](https://github.com/andreasBihlmaier/gazebo2rviz)
-* [pysdf](https://github.com/andreasBihlmaier/pysdf.git)
-
-# Usage
-## Structures
-* Class [Task](rotors_simulator/rotors_gazebo/scripts/task.py) defines the task specified in LTL
-* Class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py) define the workspace where robots reside
-* Class [Landmark](rotors_simulator/rotors_gazebo/scripts/workspace.py) define the landmarks in the workspace
-* Class [Buchi](rotors_simulator/rotors_gazebo/scripts/buchi_parse.py) constructs the graph of NBA from LTL formula
-* Class [Geodesic](rotors_simulator/rotors_gazebo/scripts/geodesic_path.py) constructs geodesic path for given environment
-* Class [BiasedTree](rotors_simulator/rotors_gazebo/scripts/biased_tree.py) involves the initialization of the tree and relevant operations
-* Function [construction_biased_tree](rotors_simulator/rotors_gazebo/scripts/construct_biased_tree.py) incrementally grow the tree
-* Script [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py) contains the main function
-* Functions [path_plot](rotors_simulator/rotors_gazebo/scripts/draw_picture.py) and [path_print](draw_picture.py) draw and print the paths, respectively
-* Functions [export_disc_to_txt](rotors_simulator/rotors_gazebo/scripts/export_disc_to_text.py) and [export_cov_to_txt](rotors_simulator/rotors_gazebo/scripts/export_cov_to_text.py) export discretized waypoints and covariance at waypoints, respectively
-* Functions [kf_update](rotors_simulator/rotors_gazebo/scripts/kf.py) and [ekf_update](rotors_simulator/rotors_gazebo/scripts/ekf.py) update position and cavariance using kalman filter and extended kalman filter respectively
-
-## Basic procedure
-* First, in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py) specify the size of the workspace, the layout of landmarks and obstacles, and the covariance associated with each landmark. Also specify the number of classes and the class distribution.
-* Then, specify the LTL task in the class [Task](rotors_simulator/rotors_gazebo/scripts/task.py), which mainly involves the assigned task, the number of robots, the initial locations of robots and the minimum distance between any pair of robots, and workspace in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py) that contains the information about the size of the workspace, the layout of regions and obstacles. If manual initiation is set to False, then the robots will be initated at random locations. 
-* Set the parameters used in the TL-RRT* in the script [biased_tree.py](rotors_simulator/rotors_gazebo/scripts/biased_tree.py), such as the maximum number of iterations, the step size, sensor range, sensor noise. 
-* Specify location of folder where the waypoints should be saved (resources folder in the rotors_gazebo package).
-
-
-Basic Usage of simulation
----------------------------------------------------------
-
-Running the simulation is quite simple, so as customizing it: it is enough to run in a terminal the command
-
-```console
-$ roslaunch rotors_gazebo ltl_sim.launch 
-```
-> **Note** For the first run you will need to update the starting positions of the robots in the launch file. This position should be the same starting positions as mentioned in the LTL task in the class [Task](rotors_simulator/rotors_gazebo/scripts/task.py). Alternatively if you run the program [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py) from the terminal before launching the simulation, the launch file will be automatically updated.
-
-The ltl_sim.launch file  launches a gazebo environment and an RViz environment. Once the Gazebo environment is unpaused, run the following line in the terminal.
-```console
-$ rosrun rotors_gazebo online_planner.py 
-```
-The [online_planner.py](rotors_simulator/rotors_gazebo/scripts/online_planner.py) file is used to calculate the path of the robots. It uses the feedback of the cameras mounted on each of the drones to update the estimates of the landmarks. It then determines if replanning is necessary to satisfy the LTL condition.
-
-### User-defined
-* User can replace the [generate_nn_output](rotors_simulator/rotors_gazebo/scripts/neural_net.py) function with their neural network. The output of this network is used to update the landmark estimates and class distributions. User can also change the [update_landmark_estimates](rotors_simulator/rotors_gazebo/scripts/online_planner.py) and the [update_class_distribution](rotors_simulator/rotors_gazebo/scripts/online_planner.py) functions as per requirement. The current fucntions use a kalman filter and a bayes filter respectively to update the probability distributions. 
-* User can use any Gazebo world as per requirement. If a new world is used update the landmark estimates and class distributions in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py)
-
 
 
 
