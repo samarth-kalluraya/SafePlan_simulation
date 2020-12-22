@@ -1,4 +1,4 @@
-# TL-RRT* simulation
+# SafePlan simulation
 The solution of the TL-RRT* program [biased_TLRRT_star.py](/biased_TLRRT_star.py) can be visualized in the simulation environment. This simulation 
 uses the RotorS ROS package [RotorS](https://github.com/ethz-asl/rotors_simulator) which is a MAV gazebo simulator and the BebopS ROS package 
 [BebopS](https://github.com/gsilano/BebopS), which is an extension of the ROS package RotorS.
