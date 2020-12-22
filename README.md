@@ -1,4 +1,4 @@
-# TL-RRT* simulation
+# SafePlan simulation
 The solution of the TL-RRT* program [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py) can be visualized in the simulation environment. This simulation 
 uses the RotorS ROS package [RotorS](https://github.com/ethz-asl/rotors_simulator) which is a MAV gazebo simulator and the BebopS ROS package 
 [BebopS](https://github.com/gsilano/BebopS), which is an extension of the ROS package RotorS.
@@ -31,7 +31,7 @@ $ catkin_init_workspace  # initialize your catkin workspace
 $ cd ~/catkin_ws/
 $ catkin init
 $ cd ~/catkin_ws/src
-$ git clone git@github.com:samarth-kalluraya/TL_RRT_star_simulation-.git													
+$ git clone git@github.com:samarth-kalluraya/SafePlan_simulation-.git													
 $ cd ~/catkin_ws
 ```
 
