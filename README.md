@@ -67,9 +67,6 @@ You can also visualize the simulation in RViz. Markers display the estimated pos
 
 
 # Example
-
-Refer [this README](rotors_simulator/rotors_gazebo/scripts/README.md) for more details on setting up the parameters for SafePlan algorithm.
-## Simulation
 ### Offline Input
 1) Workspace estimate, robot dynamics, and algorithm parameters.
 2) LTL formula
@@ -81,6 +78,7 @@ self.subformula = {1: ['(l1_1)',0,0.8,1.5, 0],
                   }
 robot_initial_pos = ((102,128),)  # in the form of ((x,y), (x,y), ...)
 ```
+Refer [this README](rotors_simulator/rotors_gazebo/scripts/README.md) for more details on setting up the offline parameters for SafePlan algorithm.
 
 ### Online Input
 1) Semantic map provided by SLAM algorithms.
@@ -101,7 +99,6 @@ Simulation (Gazebo and RViz) that uses feedback to update the estimates of the l
 
 
 # Installation Instructions - Ubuntu 18.04 with ROS Melodic and Gazebo 9
----------------------------------------------------------
 To use the code developed and stored in this repository some preliminary actions are needed. They are listed below.
 
 1. Install and initialize ROS Melodic desktop full, additional ROS packages, catkin-tools, and wstool:
