@@ -64,7 +64,34 @@ $ rosrun rotors_gazebo online_planner.py
 The [online_planner.py](rotors_simulator/rotors_gazebo/scripts/online_planner.py) file is used to calculate the path of the robots. It uses the feedback of the cameras mounted on each of the drones to update the estimates of the landmarks. It then determines if replanning is necessary to satisfy the LTL condition.
 You can also visualize the simulation in RViz. Markers display the estimated positions of the landmark, the current position of each robot and the path traced by each robot. Add visualization_marker to display the Gazebo world in RViz. 
 
-### User-defined
+
+
+# Example
+
+Refer [this README](rotors_simulator/rotors_gazebo/scripts/README.md) for more details on setting up the parameters for SafePlan algorithm.
+## Simulation
+### Offline Input
+1) Workspace estimate, robot dynamics, and algorithm parameters.
+2) LTL formula
+For example the task involving one robot is specified by 
+```python
+self.formula = '<> e2  && []!e1' 
+self.subformula = {1: ['(l1_1)',0,0.8,1.5, 0],
+                    2: ['(l2_2)',0,0.8,1.5, 0], 
+                  }
+robot_initial_pos = ((102,128),)  # in the form of ((x,y), (x,y), ...)
+### Online Input
+1) Semantic map provided by SLAM algorithms.
+2) Sensor feedback to determine landmark positions. 
+
+### Output
+Simulation (Gazebo and RViz) that uses feedback to update the estimates of the landmark positions and thus reformulate their trajectories in real-time to meet the task specifications.
+
+[![SafePlan Simulation](Sim_image.png)](https://youtu.be/RCjGMC4ZuRk "SafePlan simulation")
+
+
+
+## User-defined
 * User can replace the [generate_nn_output](rotors_simulator/rotors_gazebo/scripts/neural_net.py) function with their neural network. The output of this network is used to update the landmark estimates and class distributions. User can also change the [update_landmark_estimates](rotors_simulator/rotors_gazebo/scripts/online_planner.py) and the [update_class_distribution](rotors_simulator/rotors_gazebo/scripts/online_planner.py) functions as per requirement. The current fucntions use a kalman filter and a bayes filter respectively to update the probability distributions. 
 * User can use any Gazebo world as per requirement. If a new world is used update the landmark estimates and class distributions in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py)
 
