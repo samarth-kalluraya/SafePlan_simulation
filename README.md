@@ -80,6 +80,8 @@ self.subformula = {1: ['(l1_1)',0,0.8,1.5, 0],
                     2: ['(l2_2)',0,0.8,1.5, 0], 
                   }
 robot_initial_pos = ((102,128),)  # in the form of ((x,y), (x,y), ...)
+```
+
 ### Online Input
 1) Semantic map provided by SLAM algorithms.
 2) Sensor feedback to determine landmark positions. 
