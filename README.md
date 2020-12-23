@@ -4,6 +4,7 @@ SafePlan is an implementation of optimal temporal logic planning for multi-robot
 The solution of the planner [biased_TLRRT_star.py](rotors_simulator/rotors_gazebo/scripts/biased_TLRRT_star.py) can be visualized in the simulation environment. This simulation 
 uses the RotorS ROS package [RotorS](https://github.com/ethz-asl/rotors_simulator) which is a MAV gazebo simulator and the BebopS ROS package 
 [BebopS](https://github.com/gsilano/BebopS), which is an extension of the ROS package RotorS.
+The simulation integrates feedback in the control to update the estimates of the landmark positions and thus reformulate the paths in real-time to unsure satisfaction of the task specifications.
 
 
 [1] Y. Kantaros and G. J. Pappas, "Optimal Temporal Logic Planning for Multi-Robot Systems in Uncertain Semantic Maps," 2019 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Macau, China, 2019, pp. 4127-4132, doi: 10.1109/IROS40897.2019.8968547.
