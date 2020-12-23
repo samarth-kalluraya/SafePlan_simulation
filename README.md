@@ -93,14 +93,14 @@ Simulation (Gazebo and RViz) that uses feedback to update the estimates of the l
 
 
 
-## User-defined
+# User-defined 
 * User can replace the [generate_nn_output](rotors_simulator/rotors_gazebo/scripts/neural_net.py) function with their neural network. The output of this network is used to update the landmark estimates and class distributions. User can also change the [update_landmark_estimates](rotors_simulator/rotors_gazebo/scripts/online_planner.py) and the [update_class_distribution](rotors_simulator/rotors_gazebo/scripts/online_planner.py) functions as per requirement. The current fucntions use a kalman filter and a bayes filter respectively to update the probability distributions. 
 * User can use any Gazebo world as per requirement. If a new world is used update the landmark estimates and class distributions in the class [Workspace](rotors_simulator/rotors_gazebo/scripts/workspace.py)
 
 
 
 
-Installation Instructions - Ubuntu 18.04 with ROS Melodic and Gazebo 9
+# Installation Instructions - Ubuntu 18.04 with ROS Melodic and Gazebo 9
 ---------------------------------------------------------
 To use the code developed and stored in this repository some preliminary actions are needed. They are listed below.
 
